@@ -36,7 +36,8 @@ Schema Overview:
         "CLIENTELLE_VIEW",
         "CLIENTELLE_EDIT",
         "VIEW_PRIVELEGED_ACCESS",
-        "EDIT_PRIVELEGED_ACCESS"
+        "EDIT_PRIVELEGED_ACCESS",
+        "SUPER_USER"
     ]
 }
 ```
