@@ -1,7 +1,7 @@
-# Mazuma Payroll - DB Models
+# OpenPayroll - DB Models
 ---
 ## Overview
-This is a small guide on the OpenPayroll database models.You will see how each schematic is constructed and the naming conventions of the data.
+This is a small guide on the OpenPayroll database models. You will see how each schematic is constructed and the naming conventions of the data.
 
 ---
 ## Priveleged Accounts
