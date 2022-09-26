@@ -1,9 +1,8 @@
 # OpenPayroll - DB Models
----
+
 ## Overview
 This is a small guide on the OpenPayroll database models. You will see how each schematic is constructed and the naming conventions of the data.
 
----
 ## Priveleged Accounts
 Priveleged Accounts are defined as Users who can:
  -  Run Reports
@@ -78,7 +77,11 @@ Analytics will be used to produce a dashboard for priveleged users, this will al
  - Total Number of Users with Priveleged Access
  - Total Number of Clients in System
  - Total Number of Employees in System
-
+\
+\
+\
+\
+\
 Schema Overview:
 ```
 {
