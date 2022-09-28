@@ -1,13 +1,14 @@
 import React from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import OpenPayrollLogo from '../static-media/OpenPayroll.png'
 
 const Navbar = () => {
     const history = useNavigate()
 
     const Logout = async () => {
         try {
-            await axios.delete('http://localhost:5000/logout')
+            await axios.delete('http://localhost:5000/users/logout')
             history("/")
         } catch (error) {
             console.log(error)
@@ -19,7 +20,7 @@ const Navbar = () => {
             <div className='container'>
                 <div className='navbar-brand'>
                     <a className='navbar-item' href='https://bulma.io'>
-                        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt='logo' />
+                        <img src={OpenPayrollLogo} width="100%" height="100%" alt='logo' />
                     </a>
 
                     <a href="/" role="button" className='navbar-burger burger' aria-label='menu' aria-expanded="false" data-target="mainNavbar">
@@ -31,8 +32,8 @@ const Navbar = () => {
 
                 <div id="mainNavbar" className='navbar-menu'>
                     <div className='navbar-start'>
-                        <a href='/' className='navbar-item'>
-                            Home
+                        <a href='/company/create' className='navbar-item'>
+                            Create a Company
                         </a>
                     </div>
 

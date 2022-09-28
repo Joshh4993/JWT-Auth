@@ -7,23 +7,25 @@ import { useNavigate } from 'react-router-dom'
 const Dashboard = () => {
     const [name, setName] = useState('')
     const [token, setToken] = useState('')
+    const [accessFlags, setAccessFlags] = useState([])
     const [expire, setExpire] = useState('')
     const [users, setUsers] = useState([])
-    const [accessFlags, setAccessFlags] = useState([])
+    const [companies, setCompanies] = useState([])
     const history = useNavigate()
 
     useEffect(() => {
         refreshToken()
         getUsers()
+        getAllCompanies()
     }, [])
 
     const refreshToken = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/token')
+            const response = await axios.get('http://localhost:5000/users/token')
             setToken(response.data.accessToken)
             const decoded = jwt_decode(response.data.accessToken)
             setName(decoded.name)
-            setAccessFlags(JSON.parse(decoded.access_flags))
+            setAccessFlags(decoded.access_flags)
             setExpire(decoded.exp)
         } catch (error) {
             if (error.response) {
@@ -37,12 +39,12 @@ const Dashboard = () => {
     axiosJWT.interceptors.request.use(async (config) => {
         const currentDate = new Date()
         if (expire * 1000 < currentDate.getTime()) {
-            const response = await axios.get('http://localhost:5000/token')
+            const response = await axios.get('http://localhost:5000/users/token')
             config.headers.Authorization = `Bearer ${response.data.accessToken}`
             setToken(response.data.accessToken)
             const decoded = jwt_decode(response.data.accessToken)
             setName(decoded.name)
-            setAccessFlags(JSON.parse(decoded.access_flags))
+            setAccessFlags(decoded.access_flags)
             setExpire(decoded.exp)
         }
         return config
@@ -51,12 +53,21 @@ const Dashboard = () => {
     })
 
     const getUsers = async () => {
-        const response = await axiosJWT.get('http://localhost:5000/users', {
+        const response = await axiosJWT.get('http://localhost:5000/users/users', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         setUsers(response.data)
+    }
+
+    const getAllCompanies = async () => {
+        const response = await axiosJWT.get('http://localhost:5000/companies/companies', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        setCompanies(response.data)
     }
 
     return (
@@ -66,7 +77,7 @@ const Dashboard = () => {
             <table className='table is-striped is-fullwidth'>
                 <thead>
                     <tr>
-                        <th>No.</th>
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Flags</th>
@@ -79,6 +90,26 @@ const Dashboard = () => {
                             <td>{user.name}</td>
                             <td>{user.email}</td>
                             <td>{JSON.parse(user.access_flags)}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <table className='table is-striped is-fullwidth'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Address Line</th>
+                        <th>City/Town</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {companies.map((company, index) => (
+                        <tr key={company.id}>
+                            <td>{index + 1}</td>
+                            <td>{company.name}</td>
+                            <td>{company.addressline}</td>
+                            <td>{company.citytown}</td>
                         </tr>
                     ))}
                 </tbody>
