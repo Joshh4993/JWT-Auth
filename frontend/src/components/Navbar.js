@@ -32,8 +32,11 @@ const Navbar = () => {
 
                 <div id="mainNavbar" className='navbar-menu'>
                     <div className='navbar-start'>
-                        <a href='/company/create' className='navbar-item'>
-                            Create a Company
+                        <a href='/project/create' className='navbar-item'>
+                            Create a Project
+                        </a>
+                        <a href='/sptoken/create' className='navbar-item'>
+                            Create a SP Token
                         </a>
                     </div>
 

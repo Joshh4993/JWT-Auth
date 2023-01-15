@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize('open_payroll_dev', 'root', '', {
+const db = new Sequelize('project_dev', 'root', '', {
     host: "localhost",
     dialect: "mysql",
 });

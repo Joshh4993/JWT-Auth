@@ -25,6 +25,7 @@
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mysql2": "^2.3.3",
+    "nanoid": "^4.0.0",
     "nodemon": "^2.0.20",
     "os": "^0.1.2",
     "path": "^0.12.7",

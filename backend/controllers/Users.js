@@ -1,6 +1,7 @@
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { nanoid } from "nanoid";
 
 export const getUsers = async (req, res) => {
     try {
@@ -10,6 +11,25 @@ export const getUsers = async (req, res) => {
         res.json(users);
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const getUser = async (req, res) => {
+    try {
+        const { id } = req.body
+        const user = await Users.findAll({
+            where: {
+                id: id
+            }
+        });
+        let userObj = {
+            userId: user[0].id,
+            name: user[0].name,
+            email: user[0].email
+        }
+        res.json(userObj);
+    } catch (error) {
+        res.status(404).json({ msg: "User not found." });
     }
 }
 
@@ -26,7 +46,10 @@ export const Register = async (req, res) => {
             access_flags: JSON.stringify([
                 "PERSONAL_VIEW",
                 "CLIENTELLE_VIEW",
-            ])
+                "CLIENTELLE_CREATE",
+            ]),
+            projects: JSON.stringify([]),
+            custom_url: nanoid(2)
         });
         res.json({ msg: "Registration Successful" });
     } catch (error) {

@@ -10,13 +10,17 @@ const Dashboard = () => {
     const [accessFlags, setAccessFlags] = useState([])
     const [expire, setExpire] = useState('')
     const [users, setUsers] = useState([])
-    const [companies, setCompanies] = useState([])
+    const [projects, setProjects] = useState([])
     const history = useNavigate()
+
+    //THIS IS FOR DEV ONLY
+    const [specialTokens, setSpecialTokens] = useState([])
 
     useEffect(() => {
         refreshToken()
         getUsers()
-        getAllCompanies()
+        getAllProjects()
+        getAllSpecialTokens()
     }, [])
 
     const refreshToken = async () => {
@@ -61,13 +65,22 @@ const Dashboard = () => {
         setUsers(response.data)
     }
 
-    const getAllCompanies = async () => {
-        const response = await axiosJWT.get('http://localhost:5000/companies/companies', {
+    const getAllSpecialTokens = async () => {
+        const response = await axiosJWT.get('http://localhost:5000/sptokens/tokens', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-        setCompanies(response.data)
+        setSpecialTokens(response.data)
+    }
+
+    const getAllProjects = async () => {
+        const response = await axiosJWT.get('http://localhost:5000/projects/projects', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        setProjects(response.data)
     }
 
     return (
@@ -99,22 +112,48 @@ const Dashboard = () => {
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Address Line</th>
-                        <th>City/Town</th>
+                        <th>Description</th>
+                        <th>Creator</th>
+                        <th>Reference Link</th>
+                        <th>Private Project</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {companies.map((company, index) => (
-                        <tr key={company.id}>
+                    {projects.map((project, index) => (
+                        < tr key={project.id} >
                             <td>{index + 1}</td>
-                            <td>{company.name}</td>
-                            <td>{company.addressline}</td>
-                            <td>{company.citytown}</td>
+                            <td>{project.name}</td>
+                            <td>{project.description}</td>
+                            <td>{project.creator}</td>
+                            <td>{project.project_ref}</td>
+                            <td>{project.private ? <input type="checkbox" checked readOnly /> : <input type="checkbox" readOnly />}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
+            <table className='table is-striped is-fullwidth'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>TokenID</th>
+                        <th>Reference ID</th>
+                        <th>Expiry</th>
+                        <th>Token Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {specialTokens.map((sptoken, index) => (
+                        < tr key={sptoken.id} >
+                            <td>{index + 1}</td>
+                            <td>{sptoken.token_id}</td>
+                            <td>{sptoken.reference_id}</td>
+                            <td>{sptoken.expiry}</td>
+                            <td>{sptoken.token_type}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div >
     )
 }
 
